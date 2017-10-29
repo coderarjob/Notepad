@@ -54,6 +54,7 @@ public class NotepadFrame extends JFrame implements WindowListener
 		currentFile = null;
 		this.setTitle("New Document");
 		setStatus("New document was created.");
+		
 		textarea.requestFocus();
 		
 	}
@@ -72,6 +73,12 @@ public class NotepadFrame extends JFrame implements WindowListener
 		saveAction = new AbstractAction("Save"){
 			public void actionPerformed(ActionEvent e)
 			{
+				if (currentFile == null)
+				{
+					showMessageDialog(null,"Use save-as to save the document to a file first.");
+					return;
+				}
+				
 				SaveToFile(currentFile,filedialog.getIcon(currentFile));
 			}
 		};
@@ -134,6 +141,7 @@ public class NotepadFrame extends JFrame implements WindowListener
 	{
 		try
 		{
+			writeToFile(file,textarea.getText());
 			setStatus("'" + file.getName() + "' file saved successfully.", icon);
 			setWindowTitle(file.getAbsolutePath());
 		}
